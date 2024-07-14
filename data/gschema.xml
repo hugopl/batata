@@ -1,0 +1,50 @@
+<schemalist gettext-domain="batata">
+  <schema id="io.github.hugopl.Batata" path="/io/github/hugopl/Batata/">
+    <!-- Text -->
+    <key name="font" type="s">
+      <default>'Monospace 12'</default>
+      <summary>A Pango font name and size</summary>
+    </key>
+    <key name="custom-font" type="b">
+      <default>false</default>
+      <summary>Whether to use a custom font</summary>
+    </key>
+    <key name="theme" type="s">
+      <default>'Adwaita'</default>
+      <summary>Batata color theme</summary>
+    </key>
+    <key name="bright-colors-for-bold" type="b">
+      <default>true</default>
+      <summary>Whether to use bright colors for bold text in the terminal.</summary>
+      <description>If true, bold text is rendered in bright colors instead.</description>
+    </key>
+
+    <!-- Scrolling -->
+    <key name="scrollback-lines" type="i">
+      <default>10000</default>
+      <summary>Number of lines to keep in scrollback</summary>
+      <description>Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lin
+es; lines that don’t fit in the scrollback are discarded.</description>
+    </key>
+
+    <!-- Command -->
+    <key name="login-shell" type="b">
+      <default>true</default>
+      <summary>Whether to launch the command in the terminal as a login shell</summary>
+      <description>If true, the command inside the terminal will be launched as a login shell (argv[0] will have a hyphen in front of it).</description>
+    </key>
+    <key name="exit-action" type="i">
+      <default>0</default>
+      <summary>What to do with the terminal when the child command exits</summary>
+      <description>Possible values are “close” to close the terminal, “restart” to restart the command, and “hold” to keep the terminal open with no command running inside.</description>
+    </key>
+
+    <!-- Startup -->
+    <key name="show-help-terminal" type="b">
+      <default>true</default>
+      <summary>Show terminal with help message at start</summary>
+      <description>If true, 2 terminals are spawned at initialization, one of them with a list of shortcuts.</description>
+    </key>
+
+  </schema>
+</schemalist>

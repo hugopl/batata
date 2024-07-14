@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Exec=batata
+Name=Batata
+GenericName=An opinionated terminal emulator
+Terminal=false
+Icon=io.github.hugopl.Batata
+Categories=GNOME;GTK;System;TerminalEmulator;
+Keywords=Terminal;terminal;shell;prompt;command;commandline;cmd;box;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=batata

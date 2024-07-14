@@ -1,0 +1,8 @@
+/docs/
+/lib/
+/bin/
+/build/
+/.shards/
+/.flatpak-builder/
+*.dwarf
+data/io.github.hugopl.Comando.yml

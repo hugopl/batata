@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="PreferencesDialog" parent="AdwPreferencesDialog">
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title">Appearance</property>
+        <property name="icon-name">preferences-desktop-font-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Font</property>
+            <child>
+              <object class="AdwExpanderRow" id="custom-font">
+                <property name="title" translatable="yes">Custom Font</property>
+                <property name="show-enable-switch">1</property>
+                <property name="enable-expansion">0</property>
+                <child>
+                  <object class="AdwActionRow" id="select-custom-font">
+                    <property name="title" translatable="yes">Monospace 11</property>
+                    <property name="title-selectable">1</property>
+                    <property name="activatable">1</property>
+                    <child type="suffix">
+                      <object class="GtkImage">
+                        <property name="icon-name">go-next-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Colors</property>
+            <child>
+              <object class="AdwComboRow" id="theme">
+                <property name="title" translatable="yes">Color Theme</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="bright-colors">
+                <property name="title" translatable="yes">Use Bright Colors for Bold</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title">Behavior</property>
+        <property name="icon-name">preferences-desktop-accessibility-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Scrolling</property>
+            <child>
+              <object class="AdwSpinRow" id="scrollback-lines">
+                <property name="title" translatable="yes">Maximum lines to scrollback</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">100000</property>
+                    <property name="value">10000</property>
+                    <property name="page-increment">1000</property>
+                    <property name="step-increment">100</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Command</property>
+            <child>
+              <object class="AdwSwitchRow" id="login-shell">
+                <property name="title" translatable="yes">Run as login shell</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="exit-action">
+                <property name="title" translatable="yes">When command exits</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items>
+                      <item translatable="yes">Exit the terminal</item>
+                      <item translatable="yes">Restart shell</item>
+                      <item translatable="yes">Hold the terminal open</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Startup</property>
+            <child>
+              <object class="AdwSwitchRow" id="show-help-terminal">
+                <property name="title" translatable="yes">Show terminal with help message at start</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+
+
+<!--
+      <object class="">
+        <property name=""></property>
+      </object>
+-->
+</interface>
