@@ -26,6 +26,10 @@ Here's an ugly demo where a forget to showcase that it support tabs too!!
 | Alt+Numbers      | Show tabs 0-9.                         |
 | Ctrl+?           | Show the list of shortcuts.            |
 
+# Why this name?
+
+[Lucas Schulze](https://github.com/lucschulze) uses the word "potato" and/or "batata" as values for things when debugging stuff, everyone likes batatas.
+
 # Current Status
 
 As a _eat your own dog food_ enthusiast I currently using it every day, however it still
