@@ -224,14 +224,15 @@ class Terminal < Desktop::Item
     copy_paste_menu.append("Select All", "terminal.select_all")
     menu.append_section(nil, copy_paste_menu)
 
-    other = Gio::Menu.new
-    other.append("Readonly", "terminal.readonly")
-    other.append("Preferences", "win.preferences")
-    menu.append_section(nil, other)
+    readonly = Gio::Menu.new
+    readonly.append("Readonly", "terminal.readonly")
+    menu.append_section(nil, readonly)
 
-    about = Gio::Menu.new
-    about.append("About", "win.about")
-    menu.append_section(nil, about)
+    other = Gio::Menu.new
+    other.append("Preferences", "win.preferences")
+    other.append("Keyboard Shortcuts.", "win.show-help-overlay")
+    other.append("About", "win.about")
+    menu.append_section(nil, other)
 
     popover = Gtk::PopoverMenu.new(menu_model: menu, has_arrow: false, position: :bottom, halign: :start)
     popover.parent = self
