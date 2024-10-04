@@ -22,9 +22,9 @@ Here's an ugly demo where a forget to showcase that it support tabs too!!
 | Ctrl+Shift+N     | Spawn a new terminal in current stack. |
 | Alt+Shift+Arrows | Move terminal to that direction.       |
 | Alt+Arrows       | Focus the terminal that direction.     |
+| Ctrl+Shift+X     | Maximize/restore current terminal.     |
 | Ctrl+Shift+T     | Spawns a new terminal in a new tab.    |
 | Alt+Numbers      | Show tabs 0-9.                         |
-| Ctrl+?           | Show the list of shortcuts.            |
 
 # Why this name?
 
