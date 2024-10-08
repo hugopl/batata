@@ -2,7 +2,7 @@
 PREFIX ?= /usr
 CR_FLAGS ?= -Dstrict_multi_assign -Duse_pcre2 -Dpreview_overload_order
 
-all: .WAIT configure build
+all: .WAIT configure .WAIT build
 
 build:
 	crystal build --release --debug $(CR_FLAGS) -s --link-flags='-Wl,--as-needed' src/main.cr -o bin/batata
