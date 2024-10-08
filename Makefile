@@ -53,5 +53,6 @@ uninstall:
 
 flatpak:
 	./bin/create-flatpack-file.cr data/io.github.hugopl.Batata.in.yml > data/io.github.hugopl.Batata.yml
+	flatpak install flathub org.gnome.Sdk//47
 	flatpak-builder --force-clean ./build data/io.github.hugopl.Batata.yml --user --install
 

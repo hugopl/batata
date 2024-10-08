@@ -1,6 +1,6 @@
 id: io.github.hugopl.Batata
 runtime: org.gnome.Platform
-runtime-version: "46"
+runtime-version: "47"
 sdk: org.gnome.Sdk
 command: batata
 finish-args:
@@ -35,8 +35,8 @@ modules:
   - -Dvapi=false
   sources:
   - type: archive
-    url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.76.4/vte-0.76.4.tar.gz
-    sha256: 88979af0b02bac3c6d0bc95fcbeaf0ee025a7fc7a5b127155188b90718af0e78
+    url: https://gitlab.gnome.org/GNOME/vte/-/archive/0.78.0/vte-0.78.0.tar.gz
+    sha256: 82e19d11780fed4b66400f000829ce5ca113efbbfb7975815f26ed93e4c05f2d
 
 - name: livevent
   sources:
