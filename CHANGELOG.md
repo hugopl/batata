@@ -11,13 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2024-10-08
 
-Initial release, supports:
+### Added
 
 - Terminal stacks.
-- Move terminals between stacks.
-- Move between terminals with Ctrl+Tab, like a text editor.
+- Easy tile your terminal stacks.
+- Move terminals between tiled terminal stacks.
+- Move focus between terminals with Ctrl+Tab or Alt+Arrow.
 - Hyperlinks in terminals.
-- Tabs of terminal stack.
-- Dark//light theme aware.
+- Tabs of terminal stacks.
+- Dark/light theme aware.
 - Few tilix compatible themes.
+- GTK4/Adwaita 1.6 UI.
 
