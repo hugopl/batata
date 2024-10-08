@@ -16,6 +16,6 @@ dependencies:
     github: GeopJr/libadwaita.cr
     branch: main
 
-crystal: '>= 1.12.2'
+crystal: '>= 1.13.3'
 
 license: MIT
