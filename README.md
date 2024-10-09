@@ -67,8 +67,10 @@ flatpak run io.github.hugopl.Batata
 
 ### From Source
 
+You need the development packages for libadwaita version >= 1.6 and vte4 >= 0.78.
+
 ```
-make && sudo make install
+make && sudo make install && sudo make post-install
 batata
 ```
 
