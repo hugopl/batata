@@ -59,3 +59,17 @@ module Gtk
     end
   end
 end
+
+module Vte
+  class Terminal
+    def match_add_regex(pattern : String, flags : UInt32) : Int32
+      error = Pointer(LibGLib::Error).null
+
+      vte_regex = LibVte.vte_regex_new_for_match(pattern, pattern.bytesize, flags, pointerof(error))
+      # Error check
+      Vte.raise_gerror(error) unless error.null?
+
+      LibVte.vte_terminal_match_add_regex(to_unsafe, vte_regex, 0)
+    end
+  end
+end

@@ -1,4 +1,5 @@
 require "./theme_provider"
+require "./terminal_constants"
 
 enum ExitAction
   Close
@@ -7,7 +8,7 @@ enum ExitAction
 end
 
 class Terminal < Desktop::Item
-  @term = Vte::Terminal.new(allow_hyperlink: true, audible_bell: false, vexpand: true, hexpand: true)
+  @term = Vte::Terminal.new(allow_hyperlink: true, audible_bell: false, vexpand: true, hexpand: true, receives_default: true)
   @copy_action = Gio::SimpleAction.new("copy", nil)
   @copy_html_action = Gio::SimpleAction.new("copy_html", nil)
   @context_menu : Gtk::PopoverMenu?
@@ -55,6 +56,12 @@ class Terminal < Desktop::Item
     @term.hyperlink_hover_uri_changed_signal.connect(->on_hyperlink_hover_uri_changed(String?, Gdk::Rectangle?))
     @term.selection_changed_signal.connect(->on_selection_changed)
     @term.parent = self
+
+    # Setup regexes
+    URL_REGEX_STRINGS.each do |pattern|
+      id = @term.match_add_regex(pattern, LibPCRE2::MULTILINE)
+      @term.match_set_cursor_name(id, "pointer")
+    end
 
     spawn_shell(current_working_directory)
 
@@ -207,8 +214,12 @@ class Terminal < Desktop::Item
     true
   end
 
+  private def uri_at(x, y) : String?
+    @term.check_match_at(x, y) || @term.check_hyperlink_at(x, y)
+  end
+
   def context_menu(x : Float64, y : Float64) : Gtk::PopoverMenu
-    uri = @term.check_hyperlink_at(x, y)
+    uri = uri_at(x, y)
     menu = Gio::Menu.new
     if uri
       uri_menu = Gio::Menu.new
@@ -243,7 +254,7 @@ class Terminal < Desktop::Item
     modifier = gesture.current_event_state
     return false unless modifier.control_mask?
 
-    uri = @term.check_hyperlink_at(x, y)
+    uri = uri_at(x, y)
     return false if uri.nil?
 
     open_uri(uri)
