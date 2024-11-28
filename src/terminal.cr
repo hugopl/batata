@@ -146,7 +146,8 @@ class Terminal < Desktop::Item
   end
 
   def current_directory_uri : String
-    @term.termprop_string(Vte::TERMPROP_CURRENT_DIRECTORY_URI) || "?"
+    # @term.termprop_string(Vte::TERMPROP_CURRENT_DIRECTORY_URI) || "?"
+    @term.current_directory_uri || Path.home.to_s
   end
 
   private def on_hyperlink_hover_uri_changed(uri : String?, _bbox : Gdk::Rectangle?)
