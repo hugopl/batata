@@ -81,7 +81,7 @@ module Desktop
       end
     end
 
-    private def layout_change
+    private def layout_change(&)
       Log.info do
         spaces = "\n                             "
         "desktop.to_yaml.strip.should eq(<<-EOS)\n" \

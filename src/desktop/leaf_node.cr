@@ -119,7 +119,7 @@ module Desktop
       self
     end
 
-    def each_item
+    def each_item(&)
       @stack.each do |item|
         yield(item)
       end
