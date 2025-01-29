@@ -63,6 +63,8 @@ module Desktop
       node = @current_node
       return if node.nil? || root.nil?
       layout_change do
+        self.maximized = false if maximized?
+
         item = node.pop_item
         item.unparent
         if root.empty?
