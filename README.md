@@ -4,7 +4,7 @@
 
 # Batata 🥔
 
-Batata is a Gnome/GTK4 opinionated terminal emulator for people that
+Batata is a Gnome/GTK4 tiled terminal emulator for people that
 need to have several terminals open at the same time and want to easily
 navigate between them. Something similar to [Tilix](https://github.com/gnunn1/tilix)/[tmux]()/[Terminator](https://github.com/gnome-terminator/terminator)
 but flavored to my taste.
