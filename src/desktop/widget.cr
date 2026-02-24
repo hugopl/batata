@@ -221,9 +221,27 @@ module Desktop
                    "desktop.focus_bottom":  "<Alt>Down",
                    "desktop.focus_right":   "<Alt>Right",
                    "desktop.maximize_view": "<Ctrl><Shift>X"}
+      shortcuts_hjkl = {
+                  "desktop.move_top":      "<Alt><Shift>k",
+                  "desktop.move_left":     "<Alt><Shift>h",
+                  "desktop.move_bottom":   "<Alt><Shift>j",
+                  "desktop.move_right":    "<Alt><Shift>l",
+                  "desktop.focus_top":     "<Alt>k",
+                  "desktop.focus_left":    "<Alt>h",
+                  "desktop.focus_bottom":  "<Alt>j",
+                  "desktop.focus_right":   "<Alt>l",}
 
       controller = Gtk::ShortcutController.new(propagation_phase: :capture)
+
       shortcuts.each do |action, accel|
+        action = Gtk::ShortcutAction.parse_string("action(#{action})")
+        trigger = Gtk::ShortcutTrigger.parse_string(accel)
+        shortcut = Gtk::Shortcut.new(action: action, trigger: trigger)
+        controller.add_shortcut(shortcut)
+      end
+
+      # Also support 'Alt + h/j/k/l' as shortcuts
+      shortcuts_hjkl.each do |action, accel|
         action = Gtk::ShortcutAction.parse_string("action(#{action})")
         trigger = Gtk::ShortcutTrigger.parse_string(accel)
         shortcut = Gtk::Shortcut.new(action: action, trigger: trigger)
