@@ -434,9 +434,9 @@ module Desktop
 
       sibling = parent.children[child_index]
       if direction.left? || direction.top?
-        sibling.leftist_child
-      else
         sibling.rightist_child
+      else
+        sibling.leftist_child
       end
     end
 

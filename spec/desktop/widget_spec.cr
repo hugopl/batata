@@ -362,6 +362,42 @@ describe Desktop::Widget do
     end
   end
 
+  context "when focusing into a compound sibling" do
+    it "navigates to the topmost leaf when focusing right into a vertically-split pane" do
+      desktop = Desktop::Widget.new
+      create_n_views(desktop, 3)
+      # LeafNode1 {Item3,Item2,Item1}
+      desktop.move(:right)
+      # Horiz:[LeafNode1{Item2,Item1}, LeafNode2{Item3}], current=LeafNode2
+      desktop.add_item(Desktop::Item.new)
+      # LeafNode2{Item4,Item3}
+      desktop.move(:bottom)
+      # Horiz:[LeafNode1{Item2,Item1}, Vert:[LeafNode2{Item3}, LeafNode3{Item4}]], current=LeafNode3
+      desktop.focus(:left)
+      # current=LeafNode1 (left pane)
+      desktop.focus(:right)
+      # Should land on LeafNode2 (topmost/first of the right compound), not LeafNode3 (bottom)
+      desktop.print_list.should eq("LeafNode2 {Item3,}➜LeafNode1 {Item2,Item1,}➜LeafNode3 {Item4,}➜Nil")
+    end
+
+    it "navigates to the leftmost leaf when focusing bottom into a horizontally-split pane" do
+      desktop = Desktop::Widget.new
+      create_n_views(desktop, 3)
+      # LeafNode1 {Item3,Item2,Item1}
+      desktop.move(:bottom)
+      # Vert:[LeafNode1{Item2,Item1}, LeafNode2{Item3}], current=LeafNode2
+      desktop.add_item(Desktop::Item.new)
+      # LeafNode2{Item4,Item3}
+      desktop.move(:right)
+      # Vert:[LeafNode1{Item2,Item1}, Horiz:[LeafNode2{Item3}, LeafNode3{Item4}]], current=LeafNode3
+      desktop.focus(:top)
+      # current=LeafNode1 (top pane)
+      desktop.focus(:bottom)
+      # Should land on LeafNode2 (leftmost/first of the bottom compound), not LeafNode3 (right)
+      desktop.print_list.should eq("LeafNode2 {Item3,}➜LeafNode1 {Item2,Item1,}➜LeafNode3 {Item4,}➜Nil")
+    end
+  end
+
   context "when normalizing tree" do
     it "keep tree normalized" do
       desktop = Desktop::Widget.new

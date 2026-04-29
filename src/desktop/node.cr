@@ -39,7 +39,7 @@ module Desktop
     end
 
     def leftist_child
-      @children.last.leftist_child
+      @children.first.leftist_child
     end
 
     def rightist_child
