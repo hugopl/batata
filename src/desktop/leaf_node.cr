@@ -134,11 +134,8 @@ module Desktop
     end
 
     def selected=(@selected)
-      item = top_item?
-      return if item.nil?
-
-      item.selected = @selected
-      item.grab_focus if @selected
+      @stack.each { |item| item.selected = @selected }
+      top_item?.try(&.grab_focus) if @selected
     end
 
     def maximize(node : LeafNode?) : Nil

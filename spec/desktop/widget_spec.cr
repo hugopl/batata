@@ -362,6 +362,27 @@ describe Desktop::Widget do
     end
   end
 
+  context "when changing focus between panes" do
+    it "clears selected decoration from all stacked items in the unfocused pane" do
+      desktop = Desktop::Widget.new
+      item1 = Desktop::Item.new
+      item2 = Desktop::Item.new
+      item3 = Desktop::Item.new
+      desktop.add_item(item1)
+      desktop.add_item(item2)
+      # State: LeafNode1{item2(top), item1}, current=LeafNode1
+      desktop.move(:right)
+      # State: Horizontal[LeafNode1{item1}, LeafNode2{item2}], current=LeafNode2
+      desktop.add_item(item3)
+      # State: LeafNode2{item3(top), item2} — both visible, both selected (via update_item_properties)
+      desktop.focus(:left)
+      # LeafNode1 is now focused; LeafNode2 must lose *all* selected decorations
+      item1.has_css_class("selected").should eq(true)
+      item2.has_css_class("selected").should eq(false)
+      item3.has_css_class("selected").should eq(false)
+    end
+  end
+
   context "when focusing into a compound sibling" do
     it "navigates to the topmost leaf when focusing right into a vertically-split pane" do
       desktop = Desktop::Widget.new
