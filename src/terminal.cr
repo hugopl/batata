@@ -13,6 +13,7 @@ class Terminal < Desktop::Item
   @copy_html_action = Gio::SimpleAction.new("copy_html", nil)
   @context_menu : Gtk::PopoverMenu?
   @settings : Gio::Settings
+  @header_label = Gtk::Label.new(hexpand: true)
 
   def initialize(@settings : Gio::Settings, message : String? = nil, current_working_directory : String? = nil)
     super()
@@ -28,9 +29,9 @@ class Terminal < Desktop::Item
   private def setup_ui
     hbox = Gtk::Box.new(spacing: 3)
     hbox.add_css_class("header")
-    label = Gtk::Label.new(hexpand: true)
-    @term.bind_property("window-title", label, "label", :default)
     @term.bind_property("window-title", self, "title", :default)
+    @term.window_title_changed_signal.connect(->update_header_label)
+    @term.current_directory_uri_changed_signal.connect(->update_header_label)
 
     stack_icon = Gtk::Image.new_from_icon_name("batata-stack-symbolic")
     stack_size_label = Gtk::Label.new
@@ -43,10 +44,27 @@ class Terminal < Desktop::Item
     bind_property("maximized", maximize_icon, "visible", :default)
     hbox.append(maximize_icon)
 
-    hbox.append(label)
+    hbox.append(@header_label)
     append(hbox)
 
     apply_themming
+  end
+
+  private def update_header_label
+    title = @term.window_title || ""
+    dir = current_directory_display
+    @header_label.label = dir.empty? ? title : "#{title} (#{dir})"
+  end
+
+  private def current_directory_display : String
+    uri = @term.current_directory_uri
+    return "" unless uri
+
+    path = Gio::File.new_for_uri(uri).path.try(&.to_s)
+    return "" unless path
+
+    home = Path.home.to_s
+    path == home ? "~" : path.starts_with?("#{home}/") ? path.sub(home, "~") : path
   end
 
   private def setup_term(current_working_directory : String?)
