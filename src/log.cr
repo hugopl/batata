@@ -6,7 +6,7 @@ private struct LogFormat
 
   def self.format(entry : Log::Entry, io : IO)
     # Timestamp
-    io << entry.timestamp.hour << ':' << entry.timestamp.minute << " "
+    io << entry.timestamp.hour << ':' << entry.timestamp.minute.to_s.rjust(2, '0') << " "
 
     # Colored severity
     (6 - entry.severity.label.size).times do
