@@ -70,7 +70,7 @@ module Desktop
         @stack.each do |stack_item|
           found = stack_item == item
           stack_item.visible = found
-          stack_item.selected = true
+          stack_item.selected = found
         end
       else
         @stack.each(&.selected=(false))
