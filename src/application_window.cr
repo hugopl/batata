@@ -10,11 +10,12 @@ class ApplicationWindow < Adw::ApplicationWindow
 
   TERMINAL_HELP_MESSAGE = "                      \e[33m✧*̥˚ 🥔 *̥˚✧\e[0m\r\n\r\n" \
                           "  \e[32mAlt+Left\e[0m         Focus this left terminal stack.\r\n" \
-                          "  \e[32mAlt+Arrow\e[0m        Focus stack at that direction.\r\ngitk" \
+                          "  \e[32mAlt+Arrow\e[0m        Focus stack at that direction.\r\n" \
                           "  \e[32mAlt+Shift+Arrow\e[0m  Move terminals between stacks.\r\n\r\n" \
                           "  \e[32mCtrl+Shift+N\e[0m     Spawn a new terminal to the current stack.\r\n" \
                           "  \e[32mCtrl+,\e[0m           Open preferences.\r\n" \
                           "  \e[32mCtrl+Shift+?\e[0m     See all shortcuts.\r\n" \
+                          "  \e[32mAlt+h/j/k/l\e[0m      Alt+(Shift)+h/j/k/l is also supported\r\n" \
                           "                   \e[33m⊱ ─── ⋅ʚ♡ɞ⋅ ─── ⊰\e[0m\r\n\r\n"
 
   def initialize(app : Adw::Application)
