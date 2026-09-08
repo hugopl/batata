@@ -383,6 +383,26 @@ describe Desktop::Widget do
     end
   end
 
+  context "when adding an item to a pane that already has a stack" do
+    it "hides the item that was pushed down the stack" do
+      desktop = Desktop::Widget.new
+      item1 = Desktop::Item.new
+      item2 = Desktop::Item.new
+      item3 = Desktop::Item.new
+      desktop.add_item(item1)
+      desktop.add_item(item2)
+      # LeafNode1 {Item2,Item1}
+      desktop.move(:right)
+      # Horiz:[LeafNode1{Item1}, LeafNode2{Item2}], current=LeafNode2
+      desktop.add_item(item3)
+      # LeafNode2 {Item3,Item2}, only Item3 must be painted on the right pane.
+      desktop.print_list.should eq("LeafNode2 {Item3,Item2,}➜LeafNode1 {Item1,}➜Nil")
+      item1.visible?.should eq(true)
+      item2.visible?.should eq(false)
+      item3.visible?.should eq(true)
+    end
+  end
+
   context "when focusing into a compound sibling" do
     it "navigates to the topmost leaf when focusing right into a vertically-split pane" do
       desktop = Desktop::Widget.new

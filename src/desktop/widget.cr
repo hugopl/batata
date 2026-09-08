@@ -43,10 +43,10 @@ module Desktop
 
     def add_item(item : Item) : Nil
       current_node = @current_node
-      if current_node
-        current_node.push_item(item)
-      else
-        layout_change do
+      layout_change do
+        if current_node
+          current_node.push_item(item)
+        else
           current_node = LeafNode.new(item)
           @root = Node.new(current_node)
           set_current_node(current_node)
