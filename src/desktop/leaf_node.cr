@@ -148,6 +148,20 @@ module Desktop
       end
     end
 
+    # Returns a description of the mismatch when the widgets actually shown on
+    # screen do not match the stack order, i.e. when the visible item isn't the
+    # top of the stack. Returns nil when everything is consistent.
+    def visibility_mismatch : String?
+      visible_items = @stack.select(&.visible?)
+      return if visible_items.size == 1 && visible_items.first == top_item
+
+      String.build do |io|
+        io << "LeafNode" << @id << " shows "
+        visible_items.join(io, ",")
+        io << " but stack top is " << top_item
+      end
+    end
+
     def to_yaml(yaml, positions : Hash, current_item : Gtk::Widget?)
       yaml.mapping do
         yaml.scalar("LeafNode#{@id}")

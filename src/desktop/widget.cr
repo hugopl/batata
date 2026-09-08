@@ -268,14 +268,17 @@ module Desktop
       if !@switcher.visible
         add_css_class("switching")
         reset_model
+        Log.info { "desktop.switcher opened" }
       end
       selected = @switcher.rotate(reverse: reverse)
+      Log.info { "desktop.switcher.rotate(reverse: #{reverse}) -> #{selected}" }
       root.show_item(selected) if selected
     end
 
     private def stop_switcher
       remove_css_class("switching")
       selected = @switcher.stop
+      Log.info { "desktop.switcher.stop -> #{selected}" }
       if selected
         set_current_item(selected)
         self.maximized = false
@@ -312,6 +315,7 @@ module Desktop
         root.maximize(nil)
         root.hide_overlaped_items
       end
+      check_item_visibility
       # While safe signals isn't implemented this is needed to avoid leak animation objects.
       animation_signal_connection = @animation_signal_connection
       if animation_signal_connection
@@ -335,7 +339,21 @@ module Desktop
 
       set_current_node(node_found)
       reset_model
+      check_item_visibility
       node_found
+    end
+
+    # Logs a warning whenever a leaf node paints a terminal that isn't the top of
+    # its stack. That's invisible to the tree dumps (the model is unchanged) but
+    # it's exactly what shows up on screen as two terminals having swapped.
+    private def check_item_visibility : Nil
+      root = @root
+      return if root.nil? || @switcher.visible || maximized?
+
+      root.each_leaf_node do |node|
+        mismatch = node.visibility_mismatch
+        Log.warn { "visibility mismatch: #{mismatch}" } if mismatch
+      end
     end
 
     def move(direction : Direction)
