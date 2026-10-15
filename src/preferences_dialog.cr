@@ -1,4 +1,4 @@
-@[Gtk::UiTemplate(file: "#{__DIR__}/preferences_dialog.ui", children: %w(custom-font theme scrollback-lines login-shell exit-action bright-colors select-custom-font show-help-terminal))]
+@[Gtk::UiTemplate(file: "#{__DIR__}/preferences_dialog.ui", children: %w(custom-font theme scrollback-lines login-shell exit-action bright-colors select-custom-font show-help-terminal dropdown-monitor dropdown-shortcut))]
 class PreferencesDialog < Adw::PreferencesDialog
   include Gtk::WidgetTemplate
 
@@ -44,6 +44,58 @@ class PreferencesDialog < Adw::PreferencesDialog
     # Startup
     widget = Adw::SwitchRow.cast(template_child("show-help-terminal"))
     @settings.bind("show-help-terminal", widget, "active", :default)
+
+    # Drop down terminal
+    setup_dropdown_monitor_row
+    setup_dropdown_shortcut_row
+  end
+
+  private def setup_dropdown_monitor_row
+    labels = ["Primary monitor", "Monitor under the mouse pointer"]
+    values = ["primary", "pointer"]
+    if display = Gdk::Display.default
+      monitors = display.monitors
+      monitors.n_items.times do |i|
+        monitor = Gdk::Monitor.cast(monitors.item(i))
+        connector = monitor.connector
+        next if connector.nil?
+
+        name = monitor.description || monitor.model
+        labels << (name ? "#{name} (#{connector})" : connector)
+        values << connector
+      end
+    end
+
+    # Keep a monitor that isn't plugged right now selected.
+    current = @settings.string("dropdown-monitor")
+    unless values.includes?(current)
+      labels << "#{current} (disconnected)"
+      values << current
+    end
+
+    row = Adw::ComboRow.cast(template_child("dropdown-monitor"))
+    row.model = Gtk::StringList.new(strings: labels)
+    row.selected = values.index!(current).to_u32
+    row.notify_signal["selected"].connect do
+      @settings.set_string("dropdown-monitor", values[row.selected])
+    end
+  end
+
+  private def setup_dropdown_shortcut_row
+    row = Adw::EntryRow.cast(template_child("dropdown-shortcut"))
+    row.text = @settings.strv("dropdown-shortcut").first? || ""
+    row.apply_signal.connect do
+      accel = row.text.strip
+      if accel.empty?
+        row.remove_css_class("error")
+        @settings.set_strv("dropdown-shortcut", [] of String)
+      elsif Gtk.accelerator_parse(accel)
+        row.remove_css_class("error")
+        @settings.set_strv("dropdown-shortcut", [accel])
+      else
+        row.add_css_class("error")
+      end
+    end
   end
 
   private def on_select_custom_font(row)

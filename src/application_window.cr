@@ -3,10 +3,12 @@ require "uri"
 require "./terminal"
 require "./settings"
 require "./preferences_dialog"
+require "./shell_extension"
 
 class ApplicationWindow < Adw::ApplicationWindow
   @settings : Gio::Settings
   @tab_view : Desktop::TabView
+  @dropdown : Bool
 
   TERMINAL_HELP_MESSAGE = "                      \e[33m✧*̥˚ 🥔 *̥˚✧\e[0m\r\n\r\n" \
                           "  \e[32mAlt+Left\e[0m         Focus this left terminal stack.\r\n" \
@@ -17,7 +19,7 @@ class ApplicationWindow < Adw::ApplicationWindow
                           "  \e[32mCtrl+Shift+?\e[0m     See all shortcuts.\r\n" \
                           "                   \e[33m⊱ ─── ⋅ʚ♡ɞ⋅ ─── ⊰\e[0m\r\n\r\n"
 
-  def initialize(app : Adw::Application)
+  def initialize(app : Adw::Application, @dropdown = false)
     super(title: "Batata", application: app, default_width: 1280, default_height: 720)
 
     @settings = Settings.default
@@ -25,6 +27,7 @@ class ApplicationWindow < Adw::ApplicationWindow
 
     setup_ui(app)
     setup_actions(app)
+    ShellExtension.ask_to_enable(self, @settings) unless @dropdown
   end
 
   private def setup_ui(app)
@@ -47,8 +50,13 @@ class ApplicationWindow < Adw::ApplicationWindow
 
     notify_signal["focus-widget"].connect(->on_focus_changed(GObject::ParamSpec))
 
-    # Always start maximized, Comand was meant to be used that way.
-    self.maximized = true
+    if @dropdown
+      # The Batata GNOME Shell extension moves it to the right monitor and handles show/hide.
+      self.fullscreened = true
+    else
+      # Always start maximized, Comand was meant to be used that way.
+      self.maximized = true
+    end
   end
 
   private def setup_actions(app)

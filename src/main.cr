@@ -6,8 +6,9 @@ require "./monkey_patches"
 require "./application_window"
 require "./version"
 
-APPLICATION_ID = "io.github.hugopl.Batata"
-LICENSE        = {{ run("./macros/license.cr").stringify }}
+APPLICATION_ID          = "io.github.hugopl.Batata"
+DROPDOWN_APPLICATION_ID = "io.github.hugopl.Batata.Dropdown"
+LICENSE                 = {{ run("./macros/license.cr").stringify }}
 
 {% if compare_versions("#{Adw::MAJOR_VERSION}.#{Adw::MINOR_VERSION}.0", "1.6.0") < 0 %}
 {% raise "Adwaita version >=1.6.0 required" %}
@@ -18,7 +19,10 @@ macro not_implemented!
 end
 
 private def on_activate(app : Adw::Application)
-  window = ApplicationWindow.new(app)
+  dropdown = app.application_id == DROPDOWN_APPLICATION_ID
+  # There's only one drop down terminal window, the Shell extension toggles its visibility.
+  window = app.active_window if dropdown
+  window ||= ApplicationWindow.new(app, dropdown)
   window.present
 end
 
@@ -48,10 +52,13 @@ def main : Int32
     flags |= Gio::ApplicationFlags::NonUnique
   {% end %}
 
-  app = Adw::Application.new(application_id: APPLICATION_ID, flags: flags)
+  # The drop down terminal runs as a different application, so the GNOME Shell extension can identify its window.
+  application_id = ARGV.includes?("--dropdown") ? DROPDOWN_APPLICATION_ID : APPLICATION_ID
+  app = Adw::Application.new(application_id: application_id, flags: flags)
   app.add_main_option("version", 0, :none, :none, "Show version information and exit", nil)
   app.add_main_option("license", 0, :none, :none, "Show license information and exit", nil)
   app.add_main_option("log-level", 0, :none, :string, "Log level to be used", nil)
+  app.add_main_option("dropdown", 0, :none, :none, "Run as a drop down terminal (needs the Batata GNOME Shell extension)", nil)
 
   app.activate_signal.connect(->on_activate(Adw::Application))
   app.handle_local_options_signal.connect(->on_handle_local_options(GLib::VariantDict))

@@ -8,6 +8,22 @@ lib LibGdk
   fun gdk_clipboard_set_text(clipboard : Void*, text : LibC::Char*)
 end
 
+module GLib
+  class Variant
+    # GVariant containers (tuples, arrays and dictionaries) aren't supported by the bindings yet.
+    def child_value(index : Int) : Variant
+      Variant.new(LibGLib.g_variant_get_child_value(self, index), :full)
+    end
+
+    # Looks up a value in a dictionary variant (`a{s*}`), nil if not found or not of the given type.
+    def lookup_value(key : String, type : String? = nil) : Variant?
+      expected_type = type ? GLib::VariantType.new(type).to_unsafe : Pointer(Void).null
+      ptr = LibGLib.g_variant_lookup_value(self, key, expected_type)
+      Variant.new(ptr, :full) unless ptr.null?
+    end
+  end
+end
+
 module Gio
   class PropertyAction
   end

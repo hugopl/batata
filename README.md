@@ -26,6 +26,23 @@ Here's an ugly demo where a forget to showcase that it support tabs too!!
 | Ctrl+Shift+T     | Spawns a new terminal in a new tab.    |
 | Alt+Numbers      | Show tabs 0-9.                         |
 
+# Drop down terminal
+
+Batata can work as a drop down (Quake style) terminal on GNOME Shell (Wayland), shown/hidden with
+**F12**. It needs the Batata GNOME Shell extension, installed by `make install`. On Wayland GNOME Shell
+only loads new extensions after you log out and in again, then Batata asks you to enable it on its next
+start, or you can enable it yourself:
+
+```
+gnome-extensions enable batata@hugopl.github.io
+```
+
+The monitor where the terminal is shown and the shortcut can be changed at Batata preferences, under
+*Behavior*. The drop down terminal is a separated Batata instance (`batata --dropdown`), started on the
+first time you press the shortcut.
+
+To install just the extension for your user (useful during development) use `make install-extension`.
+
 # Why this name?
 
 [Lucas Schulze](https://github.com/lucschulze) uses the word "potato" and/or "batata" as values for things when debugging stuff, everyone likes batatas.

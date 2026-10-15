@@ -1,0 +1,7 @@
+{
+  "uuid": "batata@hugopl.github.io",
+  "name": "Batata Drop Down Terminal",
+  "description": "Show Batata as a drop down (Quake style) terminal using a global shortcut (F12 by default). Settings are on Batata preferences dialog.",
+  "url": "https://github.com/hugopl/batata",
+  "shell-version": ["47", "48", "49", "50", "51"]
+}

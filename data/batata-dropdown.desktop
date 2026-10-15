@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Batata Drop Down Terminal
+Comment=Batata as a drop down terminal, toggled by the Batata GNOME Shell extension
+Exec=batata --dropdown
+Icon=io.github.hugopl.Batata
+Type=Application
+Terminal=false
+Categories=System;TerminalEmulator;
+StartupNotify=true
+NoDisplay=true

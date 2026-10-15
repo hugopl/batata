@@ -46,5 +46,22 @@ es; lines that don’t fit in the scrollback are discarded.</description>
       <description>If true, 2 terminals are spawned at initialization, one of them with a list of shortcuts.</description>
     </key>
 
+    <!-- Drop down terminal (requires the Batata GNOME Shell extension) -->
+    <key name="dropdown-shortcut" type="as">
+      <default>['F12']</default>
+      <summary>Shortcut to show/hide the drop down terminal</summary>
+      <description>Global shortcut handled by the Batata GNOME Shell extension to toggle the drop down terminal.</description>
+    </key>
+    <key name="dropdown-monitor" type="s">
+      <default>'primary'</default>
+      <summary>Monitor where the drop down terminal is shown</summary>
+      <description>“primary” for the primary monitor, “pointer” for the monitor under the mouse pointer or a monitor connector name (e.g. “DP-1”).</description>
+    </key>
+    <key name="ask-to-enable-extension" type="b">
+      <default>true</default>
+      <summary>Ask to enable the Batata GNOME Shell extension</summary>
+      <description>If true, Batata asks to enable its GNOME Shell extension at start when it's installed but disabled.</description>
+    </key>
+
   </schema>
 </schemalist>
